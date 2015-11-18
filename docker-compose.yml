@@ -1,0 +1,73 @@
+namenode:
+  image: uhopper/namenode
+  hostname: namenode
+  container_name: namenode
+  domainname: hadoop
+  net: hadoop
+  volumes:
+    - namenode:/hadoop/dfs/name
+  environment:
+    - GANGLIA_HOST=ganglia.hadoop
+    - CORE_CONF_hadoop_http_staticuser_user=root
+    - CLUSTER_NAME=test
+
+resourcemanager:
+  image: uhopper/resourcemanager
+  hostname: resourcemanager
+  container_name: resourcemanager
+  domainname: hadoop
+  net: hadoop
+  environment:
+    - GANGLIA_HOST=ganglia.hadoop    
+    - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+    - YARN_CONF_yarn_log___aggregation___enable=true
+
+spark:
+  image: uhopper/spark
+  hostname: spark
+  container_name: spark
+  domainname: hadoop
+  net: hadoop
+  environment:
+    - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+    - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager    
+    
+nodemanager1:
+  image: uhopper/nodemanager
+  hostname: nodemanager1
+  container_name: nodemanager1
+  domainname: hadoop
+  net: hadoop
+  environment:
+    - GANGLIA_HOST=ganglia.hadoop    
+    - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+    - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager.hadoop
+    - YARN_CONF_yarn_log___aggregation___enable=true
+    - YARN_CONF_yarn_nodemanager_remote___app___log___dir=/app-logs
+
+datanode1:
+  image: uhopper/datanode
+  hostname: datanode1
+  container_name: datanode1
+  domainname: hadoop
+  net: hadoop
+  volumes:
+    - datanode1:/hadoop/dfs/data
+  environment:
+    - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+    - CORE_CONF_hadoop_http_staticuser_user=root
+    - GANGLIA_HOST=ganglia.hadoop
+    
+
+datanode2:
+  image: uhopper/datanode
+  hostname: datanode2
+  container_name: datanode2
+  domainname: hadoop
+  net: hadoop
+  volumes:
+    - datanode2:/hadoop/dfs/data
+  environment:
+    - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+    - CORE_CONF_hadoop_http_staticuser_user=root
+    - GANGLIA_HOST=ganglia.hadoop
