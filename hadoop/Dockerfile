@@ -1,9 +1,9 @@
 FROM debian:7
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-7-jdk
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends openjdk-7-jdk
 ENV JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools curl
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends net-tools curl
 
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys \
     07617D4968B34D8F13D56E20BE5AAA0BA210C095 \
