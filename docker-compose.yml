@@ -1,5 +1,5 @@
 namenode:
-  image: uhopper/namenode
+  image: uhopper/hadoop-namenode
   hostname: namenode
   container_name: namenode
   domainname: hadoop
@@ -12,7 +12,7 @@ namenode:
     - CLUSTER_NAME=test
 
 resourcemanager:
-  image: uhopper/resourcemanager
+  image: uhopper/hadoop-resourcemanager
   hostname: resourcemanager
   container_name: resourcemanager
   domainname: hadoop
@@ -23,7 +23,7 @@ resourcemanager:
     - YARN_CONF_yarn_log___aggregation___enable=true
 
 spark:
-  image: uhopper/spark
+  image: uhopper/hadoop-spark
   hostname: spark
   container_name: spark
   domainname: hadoop
@@ -33,7 +33,7 @@ spark:
     - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager    
     
 nodemanager1:
-  image: uhopper/nodemanager
+  image: uhopper/hadoop-nodemanager
   hostname: nodemanager1
   container_name: nodemanager1
   domainname: hadoop
@@ -46,7 +46,7 @@ nodemanager1:
     - YARN_CONF_yarn_nodemanager_remote___app___log___dir=/app-logs
 
 datanode1:
-  image: uhopper/datanode
+  image: uhopper/hadoop-datanode
   hostname: datanode1
   container_name: datanode1
   domainname: hadoop
@@ -60,7 +60,7 @@ datanode1:
     
 
 datanode2:
-  image: uhopper/datanode
+  image: uhopper/hadoop-datanode
   hostname: datanode2
   container_name: datanode2
   domainname: hadoop

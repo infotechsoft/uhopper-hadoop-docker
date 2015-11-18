@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t uhopper/namenode .
+docker build -t uhopper/hadoop-namenode .

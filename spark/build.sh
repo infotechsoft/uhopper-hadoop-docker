@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t uhopper/spark .
+docker build -t uhopper/hadoop-spark .
