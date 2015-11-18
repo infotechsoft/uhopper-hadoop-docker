@@ -30,7 +30,8 @@ spark:
   net: hadoop
   environment:
     - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
-    - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager    
+    - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager
+  command: tail -f /var/log/dmesg
     
 nodemanager1:
   image: uhopper/hadoop-nodemanager
