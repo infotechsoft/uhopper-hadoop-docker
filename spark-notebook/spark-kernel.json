@@ -1,0 +1,12 @@
+{
+    "display_name": "Spark",
+    "language": "scala",
+    "argv": [
+        "/root/local/bin/sparkkernel",
+        "--profile",
+        "{connection_file}",
+        "--master",
+        "<MASTER>"
+     ],
+     "codemirror_mode": "scala"
+}
