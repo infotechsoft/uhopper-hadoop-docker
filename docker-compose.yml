@@ -44,6 +44,15 @@ spark:
   env_file:
     - ./hadoop.env
 
+spark-notebook:
+  image: uhopper/hadoop-spark-notebook
+  hostname: sparknotebook
+  container_name: sparknotebook
+  domainname: hadoop
+  net: hadoop
+  env_file:
+    - ./hadoop.env    
+
 nodemanager1:
   image: uhopper/hadoop-nodemanager
   hostname: nodemanager1
