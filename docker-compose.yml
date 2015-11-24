@@ -50,6 +50,8 @@ spark-notebook:
   container_name: sparknotebook
   domainname: hadoop
   net: hadoop
+  environment:
+    - SPARK_NOTEBOOK_MASTER=yarn-client  
   env_file:
     - ./hadoop.env    
 
