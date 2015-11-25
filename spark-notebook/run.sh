@@ -1,5 +1,3 @@
 #!/bin/sh
 
-sed -i "s/<MASTER>/$SPARK_NOTEBOOK_MASTER/" /root/.local/share/jupyter/kernels/spark/kernel.json
-
-jupyter notebook --no-browser --ip=*
+/opt/spark-notebook/bin/spark-notebook -Dconfig.file=/opt/spark-notebook/conf/application.conf
