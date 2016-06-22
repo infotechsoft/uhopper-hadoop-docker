@@ -8,4 +8,24 @@ for c in `printenv | perl -sne 'print "$1 " if m/^SPARK_CONF_(.+?)=.*/'`; do
     echo $name $value >> $SPARK_HOME/conf/spark-defaults.conf
 done 
 
-exec /entrypoint.sh $@
+case $1 in
+    master)
+        shift
+        exec /entrypoint.sh /spark-master.sh $@
+        ;;
+    slave)
+        shift
+        exec /entrypoint.sh /spark-slave.sh $@
+        ;;
+    historyserver)
+        shift
+        exec /entrypoint.sh /spark-historyserver.sh $@
+        ;;
+    submit)
+        shift
+        exec /entrypoint.sh spark-submit $@
+        ;;
+    *)
+        exec /entrypoint.sh $@
+        ;;
+esac
