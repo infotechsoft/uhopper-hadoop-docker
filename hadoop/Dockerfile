@@ -1,7 +1,10 @@
-FROM debian:7
+FROM debian:jessie-backports
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends openjdk-7-jdk
-ENV JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends openjdk-8-jdk \
+    && rm -rf /var/lib/apt/lists/*
+    
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends net-tools curl
 
@@ -39,7 +42,7 @@ RUN gpg --keyserver pool.sks-keyservers.net --recv-keys \
     4A6AC5C675B6155682729C9E08D51A0A7501105C \
     8B44A05C308955D191956559A5CEE20A90348D47 
 
-ENV HADOOP_VERSION 2.7.1
+ENV HADOOP_VERSION 2.7.2
 ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 RUN set -x \
     && curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
