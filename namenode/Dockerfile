@@ -1,4 +1,4 @@
-FROM uhopper/hadoop
+FROM uhopper/hadoop:2.7.2
 
 ENV HDFS_CONF_dfs_namenode_name_dir=file:///hadoop/dfs/name
 RUN mkdir -p /hadoop/dfs/name
