@@ -1,7 +1,7 @@
 FROM debian:jessie-backports
 
 RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends openjdk-8-jdk \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y -t jessie-backports --no-install-recommends  openjdk-8-jre-headless ca-certificates-java \
     && rm -rf /var/lib/apt/lists/*
     
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
@@ -66,5 +66,7 @@ ENV PATH $HADOOP_PREFIX/bin/:$PATH
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
+
+ADD nsswitch.conf /etc/nsswitch.conf
 
 ENTRYPOINT ["/entrypoint.sh"]
