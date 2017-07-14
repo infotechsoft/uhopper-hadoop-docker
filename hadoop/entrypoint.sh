@@ -31,6 +31,10 @@ function configure() {
     done
 }
 
+function configureHostResolver() {
+    sed -i "/hosts:/ s/.*/hosts: $*/" /etc/nsswitch.conf
+}
+
 configure /etc/hadoop/core-site.xml core CORE_CONF
 configure /etc/hadoop/hdfs-site.xml hdfs HDFS_CONF
 configure /etc/hadoop/yarn-site.xml yarn YARN_CONF
@@ -77,5 +81,36 @@ if [ -n "$GANGLIA_HOST" ]; then
         echo "$module.sink.ganglia.servers=$GANGLIA_HOST:8649"
     done > /etc/hadoop/hadoop-metrics2.properties
 fi
+
+case $HOST_RESOLVER in
+    "")
+        echo "No host resolver specified. Using distro default. (Specify HOST_RESOLVER to change)"
+        ;;
+    
+    files_only)
+        echo "Configure host resolver to only use files"
+        configureHostResolver files
+        ;;
+
+    dns_only)
+        echo "Configure host resolver to only use dns"
+        configureHostResolver dns
+        ;;
+
+    dns_files)
+        echo "Configure host resolver to use in order dns, files"
+        configureHostResolver dns files
+        ;;
+
+    files_dns)
+        echo "Configure host resolver to use in order files, dns"
+        configureHostResolver files dns
+        ;;
+
+    *)
+        echo "Unrecognised network resolver configuration [${HOST_RESOLVER}]: allowed values are files_only, dns_only, dns_files, files_dns. Ignoring..."
+        ;;        
+esac
+
 
 exec $@

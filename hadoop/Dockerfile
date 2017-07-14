@@ -67,6 +67,4 @@ ENV PATH $HADOOP_PREFIX/bin/:$PATH
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
 
-ADD nsswitch.conf /etc/nsswitch.conf
-
 ENTRYPOINT ["/entrypoint.sh"]
