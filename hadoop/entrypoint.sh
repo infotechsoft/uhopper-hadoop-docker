@@ -113,4 +113,15 @@ case $HOST_RESOLVER in
 esac
 
 
+if [ -n "$HADOOP_CUSTOM_CONF_DIR" ]; then
+    if [ -d "$HADOOP_CUSTOM_CONF_DIR" ]; then
+        for f in `ls $HADOOP_CUSTOM_CONF_DIR/`; do
+            echo "Applying custom Hadoop configuration file: $f"
+            ln -sfn "$HADOOP_CUSTOM_CONF_DIR/$f" "/etc/hadoop/$f"
+        done
+    else
+        echo >&2 "Hadoop custom configuration directory not found or not a directory. Ignoring: $HADOOP_CUSTOM_CONF_DIR"
+    fi
+fi
+
 exec $@
