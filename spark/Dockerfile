@@ -1,7 +1,6 @@
-FROM uhopper/hadoop:2.7.2
+FROM uhopper/hadoop:2.8.1
 
 ENV SPARK_VERSION 2.0.2
-ENV SPARK_HADOOP_PROFILE 2.7
 
 ENV SPARK_BIN_URL https://www.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz
 
