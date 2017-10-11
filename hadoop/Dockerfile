@@ -43,7 +43,8 @@ RUN gpg --keyserver pool.sks-keyservers.net --recv-keys \
     8B44A05C308955D191956559A5CEE20A90348D47 
 
 ENV HADOOP_VERSION 2.7.2
-ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+ENV HADOOP_URL https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+
 RUN set -x \
     && curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
     && curl -fSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc \
