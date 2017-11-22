@@ -26,7 +26,15 @@ case $1 in
         exec /entrypoint.sh spark-submit $@
         ;;
     *)
-        export CLASSPATH="$(hadoop classpath):${SPARK_HOME}/jars/*"
+        
+        if [ "$HADOOP_ON_CLASSPATH" = "1" ]; then
+            export CLASSPATH="$(hadoop classpath)${CLASSPATH:+:$CLASSPATH}"
+        fi
+
+        if [ "$SPARK_ON_CLASSPATH" = "1" ]; then
+            export CLASSPATH="${SPARK_HOME}/jars/*${CLASSPATH:+:$CLASSPATH}"
+        fi
+
         exec /entrypoint.sh $@
         ;;
 esac
