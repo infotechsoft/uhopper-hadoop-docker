@@ -48,11 +48,11 @@ RUN curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
     && curl -fSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc \
     && gpg --verify /tmp/hadoop.tar.gz.asc \
     && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
-    && rm /tmp/hadoop.tar.gz*
+    && rm /tmp/hadoop.tar.gz* \
     && ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop \
     && cp /etc/hadoop/mapred-site.xml.template /etc/hadoop/mapred-site.xml \
-    && mkdir /opt/hadoop-$HADOOP_VERSION/logs
-    && mkdir /hadoop-data
+    && mkdir /opt/hadoop-$HADOOP_VERSION/logs \
+    && mkdir /hadoop-data \
     && rm -Rf /opt/hadoop-$HADOOP_VERSION/share/doc/hadoop
 
 ENV HADOOP_PREFIX=/opt/hadoop-$HADOOP_VERSION
