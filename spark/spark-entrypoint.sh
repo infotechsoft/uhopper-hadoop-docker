@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 for c in `printenv | perl -sne 'print "$1 " if m/^SPARK_CONF_(.+?)=.*/'`; do 
     name=`echo ${c} | perl -pe 's/___/-/g; s/__/_/g; s/_/./g'`
     var="SPARK_CONF_${c}"
