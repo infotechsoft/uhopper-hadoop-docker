@@ -31,6 +31,10 @@ function configure() {
     done
 }
 
+function configureHostResolver() {
+    sed -i "/hosts:/ s/.*/hosts: $*/" /etc/nsswitch.conf
+}
+
 configure /etc/hadoop/core-site.xml core CORE_CONF
 configure /etc/hadoop/hdfs-site.xml hdfs HDFS_CONF
 configure /etc/hadoop/yarn-site.xml yarn YARN_CONF
@@ -76,6 +80,48 @@ if [ -n "$GANGLIA_HOST" ]; then
         echo "$module.sink.ganglia.dmax=jvm.metrics.threadsBlocked=70,jvm.metrics.memHeapUsedM=40"
         echo "$module.sink.ganglia.servers=$GANGLIA_HOST:8649"
     done > /etc/hadoop/hadoop-metrics2.properties
+fi
+
+case $HOST_RESOLVER in
+    "")
+        echo "No host resolver specified. Using distro default. (Specify HOST_RESOLVER to change)"
+        ;;
+    
+    files_only)
+        echo "Configure host resolver to only use files"
+        configureHostResolver files
+        ;;
+
+    dns_only)
+        echo "Configure host resolver to only use dns"
+        configureHostResolver dns
+        ;;
+
+    dns_files)
+        echo "Configure host resolver to use in order dns, files"
+        configureHostResolver dns files
+        ;;
+
+    files_dns)
+        echo "Configure host resolver to use in order files, dns"
+        configureHostResolver files dns
+        ;;
+
+    *)
+        echo "Unrecognised network resolver configuration [${HOST_RESOLVER}]: allowed values are files_only, dns_only, dns_files, files_dns. Ignoring..."
+        ;;        
+esac
+
+
+if [ -n "$HADOOP_CUSTOM_CONF_DIR" ]; then
+    if [ -d "$HADOOP_CUSTOM_CONF_DIR" ]; then
+        for f in `ls $HADOOP_CUSTOM_CONF_DIR/`; do
+            echo "Applying custom Hadoop configuration file: $f"
+            ln -sfn "$HADOOP_CUSTOM_CONF_DIR/$f" "/etc/hadoop/$f"
+        done
+    else
+        echo >&2 "Hadoop custom configuration directory not found or not a directory. Ignoring: $HADOOP_CUSTOM_CONF_DIR"
+    fi
 fi
 
 exec $@
