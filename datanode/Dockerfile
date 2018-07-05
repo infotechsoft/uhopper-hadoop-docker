@@ -1,4 +1,5 @@
-FROM uhopper/hadoop:2.8.1
+ARG HADOOP_TAG
+FROM infotechsoft/hadoop:${HADOOP_TAG}
 
 ENV HDFS_CONF_dfs_datanode_data_dir=file:///hadoop/dfs/data
 RUN mkdir -p /hadoop/dfs/data
