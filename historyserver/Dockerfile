@@ -1,5 +1,5 @@
-FROM uhopper/hadoop:2.8.1
-
+ARG HADOOP_TAG
+FROM infotechsoft/hadoop:${HADOOP_TAG}
 
 ENV YARN_CONF_yarn_timeline___service_leveldb___timeline___store_path=/hadoop/yarn/timeline
 RUN mkdir -p /hadoop/yarn/timeline

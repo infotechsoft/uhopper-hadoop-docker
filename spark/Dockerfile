@@ -1,4 +1,5 @@
-FROM uhopper/hadoop:2.8.1
+ARG HADOOP_TAG
+FROM infotechsoft/hadoop:${HADOOP_TAG}
 
 ENV SPARK_VERSION 2.1.2
 
