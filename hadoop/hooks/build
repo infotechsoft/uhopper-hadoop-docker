@@ -1,6 +1,16 @@
 #!/bin/bash
 
+if [ $SOURCE_BRANCH != "master" ]; then
+    HADOOP_VERSION=$SOURCE_BRANCH
+else
+    HADOOP_VERSION=2.9.1
+fi
+
+echo "Building $IMAGE_NAME for Hadoop $HADOOP_VERSION..."
+
+HADOOP_TAG=$(echo $IMAGE_NAME | cut -d ':' -f 2)
+
 docker build \
-    --build-arg HADOOP_VERSION=$SOURCE_BRANCH \
-    --build-arg HADOOP_TAG=$SOURCE_BRANCH \
+    --build-arg HADOOP_VERSION=$HADOOP_VERSION \
+    --build-arg HADOOP_TAG=$HADOOP_TAG \
     -t $IMAGE_NAME .

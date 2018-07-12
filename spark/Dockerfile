@@ -1,17 +1,14 @@
 ARG HADOOP_TAG
 FROM infotechsoft/hadoop:${HADOOP_TAG}
 
-ENV SPARK_VERSION 2.1.2
-
-ENV SPARK_BIN_URL https://www.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz
-
+ARG SPARK_VERSION=2.3.1
+ENV SPARK_VERSION ${SPARK_VERSION}
 ENV SPARK_HOME=/opt/spark-$SPARK_VERSION
 
 RUN set -x \
-    && curl -fSL "$SPARK_BIN_URL" -o /tmp/spark.tar.gz \
-    && tar -xvf /tmp/spark.tar.gz -C /opt \
-    && mv /opt/spark-$SPARK_VERSION-* $SPARK_HOME \
-    && rm -f /tmp/spark.tar.gz
+    && . /functions.sh \
+    && apache_install spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-without-hadoop.tgz spark/KEYS \
+    && mv /opt/spark-$SPARK_VERSION-* $SPARK_HOME
 
 WORKDIR $SPARK_HOME
 ENV PATH $SPARK_HOME/bin:$PATH

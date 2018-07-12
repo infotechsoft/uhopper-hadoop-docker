@@ -12,15 +12,8 @@ ADD functions.sh /functions.sh
 
 ARG HADOOP_VERSION
 ENV HADOOP_VERSION ${HADOOP_VERSION}
-ENV HADOOP_PATH hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 RUN . /functions.sh \
-    && curl -fSL "$(apache_mirror $HADOOP_PATH)" -o /tmp/hadoop.tar.gz \
-    && curl -fSL "https://archive.apache.org/dist/$HADOOP_PATH.asc" -o /tmp/hadoop.tar.gz.asc \
-    && curl -fSL https://dist.apache.org/repos/dist/release/hadoop/common/KEYS -o /tmp/KEYS \
-    && gpg --no-default-keyring --keyring /tmp/keys.gpg --import /tmp/KEYS \
-    && gpgv --keyring /tmp/keys.gpg /tmp/hadoop.tar.gz.asc /tmp/hadoop.tar.gz \
-    && tar -xf /tmp/hadoop.tar.gz -C /opt/ \
-    && rm /tmp/hadoop.tar.gz* /tmp/KEYS /tmp/keys.gpg \
+    && apache_install hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz hadoop/common/KEYS \
     && ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop \
     && cp /etc/hadoop/mapred-site.xml.template /etc/hadoop/mapred-site.xml \
     && mkdir /opt/hadoop-$HADOOP_VERSION/logs \
